@@ -1,16 +1,37 @@
-# This is a sample Python script.
+#!/usr/bin/env python3
+from PySide6.QtCore import QTime, QTimer
+from PySide6.QtGui import Qt
 
-# Press Mayús+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from PySide6.QtWidgets import QApplication, QLabel
 
+import sys
+import time
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+app = QApplication(sys.argv)
 
+due = QTime.currentTime()
+message = 'Alert!'
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+try:
+    if len(sys.argv) < 2:
+        raise ValueError
+    hours, minutes = sys.argv[1].split(":")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    due = QTime(int(hours), int(minutes))
+
+    if not due.isNull():
+        raise ValueError
+    if len(sys.argv) > 2:
+        message = ' '.join(sys.argv[2:])
+
+except:
+    print('Usage: python SimpleApp.py HH:MM Optional Message')
+while QTime.currentTime() < due:
+    time.sleep(5)
+
+label = QLabel("<font color=red size=72>" + message + "</font>")
+label.setWindowFlag(Qt.SplashScreen)
+label.show()
+
+QTimer.singleShot(2000, app.quit)
+app.exec_()
