@@ -32,14 +32,6 @@ class Form(QDialog):
         except:
             self.resultList.append("<font color=red><b>Expression invalid</b></font>")
 
-
-            #####################################################
-            #                                                   #
-            #                                                   #
-            #                                                   #
-            #####################################################
-
-
 app = QApplication(sys.argv)
 form = Form()
 form.show()
